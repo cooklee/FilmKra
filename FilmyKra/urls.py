@@ -23,4 +23,6 @@ urlpatterns = [
     path('movies/', views.movie_view, name='movie_list'),
     path('add_person/', views.add_person_view, name='add_person'),
     path('add_movie/', views.add_movie_view, name='add_movie'),
+    path('person/<int:id>/', views.detail_person_view, name='person'),
+    path('movie/<int:id>/', views.detail_movie_view, name='movie'),
 ]

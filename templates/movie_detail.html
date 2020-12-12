@@ -1,0 +1,12 @@
+<div>
+    <p>Tytuł: {{ movie.title }}</p>
+    <p>Rok: {{ movie.year }}</p>
+    <p>Reżyser: {{ movie.directed_by }}</p>
+    <p>Wystąpiki:
+        <ul>
+        {% for actor in movie.actors.all %}
+            <li>{{ actor }}</li>
+        {% endfor %}
+        </ul>
+    </p>
+</div>

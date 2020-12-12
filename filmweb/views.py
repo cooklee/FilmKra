@@ -12,6 +12,17 @@ def movie_view(request):
     objects = Movie.objects.all()
     return render(request, 'show_objects.html', {'objects':objects})
 
+
+def detail_person_view(request, id):
+    object = Person.objects.get(id=id)
+    return render(request, "person_detail.html", {'person':object})
+
+
+def detail_movie_view(request, id):
+    object = Movie.objects.get(id=id)
+    return render(request, "movie_detail.html",  {'movie':object})
+
+
 def add_movie_view(request):
     if request.method == 'GET':
         persons = Person.objects.all()
@@ -21,7 +32,12 @@ def add_movie_view(request):
         year = request.POST['year']
         person_id = request.POST['directed_by']
         person = Person.objects.get(id = person_id)
-        Movie.objects.create(title=title, year=year, directed_by=person)
+        movie = Movie.objects.create(title=title, year=year, directed_by=person)
+        actors_id = request.POST.getlist('actors')
+        actors = Person.objects.filter(id__in=actors_id)
+        #movie.actors.set(actors)
+        for actor in actors:
+            movie.actors.add(actor)
         return redirect("/movies/")
 
 def add_person_view(request):

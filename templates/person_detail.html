@@ -1,0 +1,9 @@
+<div>
+    <p>    {{ person.first_name }} {{ person.last_name }}</p>
+<p>Wyreżyserował:</p>
+    <ul>
+        {% for movie in person.directed.all %}
+            <li>{{ movie }}</li>
+        {% endfor %}
+    </ul>
+</div>

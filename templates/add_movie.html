@@ -11,6 +11,14 @@
         </select>
 
     </p>
+    <p>Actors:
+        <select name="actors" multiple>
+            {% for person in persons %}
+                <option value="{{ person.id }}">{{ person }}</option>
+            {% endfor %}
+        </select>
+
+    </p>
     <p><input type="submit" > </p>
 
 
