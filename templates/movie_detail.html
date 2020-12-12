@@ -1,12 +1,34 @@
 <div>
-    <p>Tytuł: {{ movie.title }}</p>
-    <p>Rok: {{ movie.year }}</p>
-    <p>Reżyser: {{ movie.directed_by }}</p>
-    <p>Wystąpiki:
+    <form method="post">
+    {% csrf_token %}
+
+
+    <p>Tytuł: <input type="text" value="{{ movie.title }}" name="title"> </p>
+    <p>Rok: <input type="number" value="{{ movie.year }}" name="year"></p>
+
+        <p>Reżyser:
+        <select name="directed_by">
+            {% for osoba in persons %}
+                {% if osoba == movie.directed_by %}
+                    <option selected value="{{ osoba.id }}">{{ osoba }}</option>
+                {% else %}
+                    <option value="{{ osoba.id }}">{{ osoba }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        </p>
+    <p>Wystąpili:
         <ul>
-        {% for actor in movie.actors.all %}
-            <li>{{ actor }}</li>
+        {% for actor in persons %}
+                {% if actor in movie.actors.all %}
+                    <li><input name='actors' type="checkbox" checked value="{{ actor.id }}"> {{ actor }}</li>
+                {% else %}
+                    <li><input name='actors' type="checkbox" value="{{ actor.id }}"> {{ actor }}</li>
+            {% endif %}
+
         {% endfor %}
         </ul>
     </p>
+        <input type="submit">
+    </form>
 </div>
