@@ -1,0 +1,17 @@
+<form method="post">
+    {% csrf_token %}
+
+    <p>Title: <input type="text" name="title"> </p>
+    <p>year: <input type="number" name="year"> </p>
+    <p>Directed by:
+        <select name="directed_by">
+            {% for person in persons %}
+                <option value="{{ person.id }}">{{ person }}</option>
+            {% endfor %}
+        </select>
+
+    </p>
+    <p><input type="submit" > </p>
+
+
+</form>
