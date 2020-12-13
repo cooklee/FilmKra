@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Nazwa: <input type="text" name="nazwa"></p>
+        <p>
+            <select name="country">
+                {% for kraj in kraje %}
+                    <option value="{{ kraj.id }}">{{ kraj }}</option>
+                {% endfor %}
+            </select>
+
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+
+
+    </form>
+
+{% endblock %}

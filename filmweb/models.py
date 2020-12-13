@@ -14,7 +14,8 @@ class Studio(models.Model):
     def __str__(self):
         return f'{self.name} {self.country}'
 
-
+    def get_detail_url(self):
+        return f"/studio/{self.id}"
 
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
@@ -33,6 +34,7 @@ class Movie(models.Model):
     year = models.IntegerField()
     directed_by = models.ForeignKey(Person, on_delete=models.CASCADE, null=True, related_name='directed')
     actors = models.ManyToManyField(Person, related_name='played_in')
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE,default=1)
 
     def __str__(self):
         return f"{self.title} {self.year}"

@@ -20,14 +20,19 @@ from filmweb import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('persons/', views.person_view, name='person_list'),
+    path('persons/', views.PersonListView.as_view(), name='person_list'),
     path('movies/', views.movie_view, name='movie_list'),
     path('add_person/', views.add_person_view, name='add_person'),
     path('add_movie/', views.add_movie_view, name='add_movie'),
     path('person/<int:id>/', views.detail_person_view, name='person'),
     path('movie/<int:id>/', views.detail_movie_view, name='movie'),
+    path('movies_by_studio/<int:id>/<int:year>/<str:title>/', views.StudioMovieView.as_view(), name='movie2'),
     path('session/', views.add_info_to_session, name='session'),
     path('cookie/', views.add_cookie, name='cookie'),
     path('country/', views.CountryView.as_view(), name='country_list'),
     path('add_country/', views.AddCountryView.as_view(), name='add_country'),
+    path('add_studio/', views.AddStudioView.as_view(), name='add_studio'),
+    path('studios/', views.StudioListView.as_view(), name='studio_list'),
+    path('studio/<int:id>/', views.StudioDetailView.as_view(), name='studio_detail'),
 ]
+
