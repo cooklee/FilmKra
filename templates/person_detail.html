@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <div>
     <p>    {{ person.first_name }} {{ person.last_name }}</p>
 <p>Wyreżyserował:</p>
@@ -7,3 +9,4 @@
         {% endfor %}
     </ul>
 </div>
+{% endblock %}

@@ -1,6 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
     <p>Imie:<input type="text" name="first_name"></p>
     <p>nazwisko:<input type="text" name="last_name"></p>
     <p><input type="submit" value="Dodaj">   </p>
 </form>
+{% endblock %}

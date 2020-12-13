@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
-
 # Create your views here.
 from filmweb.models import Person, Movie
 
 
+def index(request):
+    return render(request, 'base.html')
+
 def person_view(request):
     objects = Person.objects.all()
-    return render(request, "show_objects.html", {'objects': objects})
+    sikorka = render(request, "show_objects.html", {'objects': objects})
+    return sikorka
 
 def movie_view(request):
     objects = Movie.objects.all()

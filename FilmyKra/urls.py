@@ -19,6 +19,7 @@ from filmweb import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
     path('persons/', views.person_view, name='person_list'),
     path('movies/', views.movie_view, name='movie_list'),
     path('add_person/', views.add_person_view, name='add_person'),

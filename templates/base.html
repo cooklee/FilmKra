@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul.header {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li.header {
+  float: left;
+}
+
+li.header a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+    </style>
+</head>
+<body>
+<ul class="header">
+  <li class="header"><a href="{% url 'person_list' %}">Osoby</a></li>
+  <li class="header"><a href="{% url 'add_person' %}">Dodaj Osoby</a></li>
+  <li class="header"><a href="{% url 'movie_list' %}">Filmy</a></li>
+  <li class="header"><a href="{% url 'add_movie' %}">Dodaj film</a></li>
+
+</ul>
+{% block content %}
+{% endblock %}
+</body>
+</html>
