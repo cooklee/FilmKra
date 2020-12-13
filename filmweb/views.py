@@ -141,7 +141,11 @@ class AddStudioView(View):
 class StudioListView(View):
 
     def get(self, request):
+
         pobrane_studia_z_bazy = Studio.objects.all()
+        nazwa = request.GET.get('data')
+        if nazwa is not None:
+            pobrane_studia_z_bazy = pobrane_studia_z_bazy.filter(name__icontains=nazwa)
         return render(request, 'show_objects.html', {'objects':pobrane_studia_z_bazy})
 
 class StudioDetailView(View):
