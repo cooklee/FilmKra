@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <form method="post">
+    {% csrf_token %}
+        <p>klucz: <input type="text" name="session_key"></p>
+        <p>wartośc: <input type="text" name="session_value"></p>
+        <input type="submit">
+    </form>
+    {% for item in session %}
+        <p>
+            session[{{ item.0}}] =  {{ item.1 }}
+        </p>
+    {% empty %}
+        <p>Nie ma nic w sesji</p>
+    {% endfor %}
+
+{% endblock %}

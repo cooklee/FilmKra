@@ -68,3 +68,14 @@ def add_person_view(request):
         last_name = request.POST['last_name']
         Person.objects.create(first_name=first_name, last_name=last_name)
         return redirect('/persons/')
+
+
+
+def add_info_to_session(request):
+    if request.method == "POST":
+        key = request.POST['session_key']
+        value = request.POST['session_value']
+        request.session[key] = value
+    return render(request, 'session.html', {'session':request.session.items()})
+
+
