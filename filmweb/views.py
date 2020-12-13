@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 # Create your views here.
-from filmweb.models import Person, Movie
+from django.urls import reverse
+from django.views import View
+
+from filmweb.models import Person, Movie, Country
 
 
 def index(request):
@@ -77,5 +80,33 @@ def add_info_to_session(request):
         value = request.POST['session_value']
         request.session[key] = value
     return render(request, 'session.html', {'session':request.session.items()})
+
+
+def add_cookie(request):
+    response = render(request, 'cookie.html', {'jabuszko': request.COOKIES.items()})
+    if request.method == "POST":
+        key = request.POST['cookie_key']
+        value = request.POST['cookie_value']
+        response.set_cookie(key, value, max_age=3)
+    return response
+
+
+
+class AddCountryView(View):
+
+    def get(self, request):
+        return render(request,  'add_country.html')
+
+    def post(self, request):
+        name = request.POST['name']
+        Country.objects.create(name=name)
+        return redirect(reverse("country_list"))
+
+class CountryView(View):
+    def get(self, request):
+        return render(request, 'show_objects.html', {'objects':Country.objects.all()})
+
+
+
 
 

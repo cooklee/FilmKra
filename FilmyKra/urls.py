@@ -26,5 +26,8 @@ urlpatterns = [
     path('add_movie/', views.add_movie_view, name='add_movie'),
     path('person/<int:id>/', views.detail_person_view, name='person'),
     path('movie/<int:id>/', views.detail_movie_view, name='movie'),
-    path('session/', views.add_info_to_session, name='session')
+    path('session/', views.add_info_to_session, name='session'),
+    path('cookie/', views.add_cookie, name='cookie'),
+    path('country/', views.CountryView.as_view(), name='country_list'),
+    path('add_country/', views.AddCountryView.as_view(), name='add_country'),
 ]
