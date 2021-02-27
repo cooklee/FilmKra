@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 from django.views import View
+from django.contrib.auth.models import User
+from django.views.generic import ListView
 
 from filmweb.models import Person, Movie, Country, Studio
 
@@ -11,7 +13,7 @@ def index(request):
 
 def person_view(request):
     objects = Person.objects.all()
-    sikorka = render(request, "show_objects.html", {'objects': objects})
+    sikorka = render(request, "show_objects.html", {'object_list': objects})
     return sikorka
 
 class PersonListView(View):
@@ -21,12 +23,12 @@ class PersonListView(View):
         nazwisko = request.GET.get('data')
         if nazwisko is not None:
             objects = objects.filter(last_name__icontains=nazwisko)
-        sikorka = render(request, "show_objects.html", {'objects': objects})
+        sikorka = render(request, "show_objects.html", {'object_list': objects})
         return sikorka
 
 def movie_view(request):
     objects = Movie.objects.all()
-    return render(request, 'show_objects.html', {'objects':objects})
+    return render(request, 'show_objects.html', {'object_list':objects})
 
 
 def detail_person_view(request, id):
@@ -114,7 +116,7 @@ class AddCountryView(View):
 
 class CountryView(View):
     def get(self, request):
-        return render(request, 'show_objects.html', {'objects': Country.objects.all()})
+        return render(request, 'show_objects.html', {'object_list': Country.objects.all()})
 
 
 class StudioMovieView(View):
@@ -122,7 +124,7 @@ class StudioMovieView(View):
     def get(self, request, id, year, title):
         studio = Studio.objects.get(id=id)
         movies = Movie.objects.filter(studio=studio, year=year, title__startswith=title)
-        return render(request, 'show_objects.html', {'objects':movies})
+        return render(request, 'show_objects.html', {'object_list':movies})
 
 
 class AddStudioView(View):
@@ -146,7 +148,7 @@ class StudioListView(View):
         nazwa = request.GET.get('data')
         if nazwa is not None:
             pobrane_studia_z_bazy = pobrane_studia_z_bazy.filter(name__icontains=nazwa)
-        return render(request, 'show_objects.html', {'objects':pobrane_studia_z_bazy})
+        return render(request, 'show_objects.html', {'object_list':pobrane_studia_z_bazy})
 
 class StudioDetailView(View):
 
@@ -164,6 +166,11 @@ class StudioDetailView(View):
         studio.country = kraj
         studio.save()
         return redirect(reverse('studio_list'))
+
+
+class ListUserView(ListView):
+    model = User
+    template_name = 'show_objects.html'
 
 
 

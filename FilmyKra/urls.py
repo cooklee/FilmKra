@@ -34,5 +34,6 @@ urlpatterns = [
     path('add_studio/', views.AddStudioView.as_view(), name='add_studio'),
     path('studios/', views.StudioListView.as_view(), name='studio_list'),
     path('studio/<int:id>/', views.StudioDetailView.as_view(), name='studio_detail'),
+    path('list_users/', views.ListUserView.as_view(), name='list_user')
 ]
 
