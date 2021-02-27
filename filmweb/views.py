@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 # Create your views here.
@@ -106,7 +107,8 @@ def add_cookie(request):
 
 
 
-class AddCountryView(View):
+class AddCountryView(PermissionRequiredMixin, View):
+    permission_required = ('filmweb.add_country',)
 
     def get(self, request):
         return render(request,  'add_country.html')
@@ -142,7 +144,7 @@ class AddStudioView(View):
         Studio.objects.create(name=nazwa, country=kraj)
         return redirect(reverse('studio_list'))
 
-class StudioListView(View):
+class StudioListView(LoginRequiredMixin, View):
 
     def get(self, request):
 
@@ -187,7 +189,10 @@ class LoginView(View):
             user = authenticate(request, **form.cleaned_data)
             if user is not None:
                 login(request, user)
-                return redirect("index")
+                redirect_url = request.GET.get('next', 'index')
+                #próbujemy pobrać ze słownika request.GET wartość która znajduje sie pod kluczem "next" jesli nie ma 'next'
+                # to zwracamy "index"
+                return redirect(redirect_url)
             else:
                 return redirect('login')
 
