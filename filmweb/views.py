@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.views import View
 from django.contrib.auth.models import User
 from django.views.generic import ListView
-from django.contrib.auth import authenticate, login
-from filmweb.forms import LoginForm
+from django.contrib.auth import authenticate, login, logout
+from filmweb.forms import LoginForm, RegisterForm
 from filmweb.models import Person, Movie, Country, Studio
 
 
@@ -184,32 +184,50 @@ class LoginView(View):
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            # dzięki wywołaniu metody is_valid na obiekcie form tworzy na sie słowniki w obiekcie form o nazwie
-            # cleaned_data w którym przechowywane sa wszystkie pola z formlularza.
-            # form.cleaned_data = {
-            #     'username': request.POST['username'],
-            #     'password': request.POST['password']
-            # }
-            # metoda authenticate wyglada tak ze przyjmuje trzy paramaetry request, username, password
-            # mógłbym napisać to authenticate(request,
-            #                                 username = form.cleaned_data['username'],
-            #                                 password = form.cleaned_data['password'])
-            # natomiast użycie ** gwiazdek na słowniku cleaned_data przy wowłaniu funkcji jakby rozpisuje słownik na
-            # takie użycie jak jest pokazane powyżej
             user = authenticate(request, **form.cleaned_data)
             if user is not None:
                 login(request, user)
-                return HttpResponse("Jupi ka jej zalogowany")
+                return redirect("index")
             else:
                 return redirect('login')
 
+        # dzięki wywołaniu metody is_valid na obiekcie form tworzy na sie słowniki w obiekcie form o nazwie
+        # cleaned_data w którym przechowywane sa wszystkie pola z formlularza.
+        # form.cleaned_data = {
+        #     'username': request.POST['username'],
+        #     'password': request.POST['password']
+        # }
+        # metoda authenticate wyglada tak ze przyjmuje trzy paramaetry request, username, password
+        # mógłbym napisać to authenticate(request,
+        #                                 username = form.cleaned_data['username'],
+        #                                 password = form.cleaned_data['password'])
+        # natomiast użycie ** gwiazdek na słowniku cleaned_data przy wowłaniu funkcji jakby rozpisuje słownik na
+        # takie użycie jak jest pokazane powyżej
+
+
+class LogOutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('index')
 
 
 
 
+class RegisterView(View):
+    def get(self, request):
+        form = RegisterForm()
+        return render(request, 'form.html', {'form':form})
 
-
-
-
-
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            u = User.objects.create(username=username)
+            u.set_password(password)
+            u.save()
+            return redirect('login')
+        else:
+            return render(request, 'form.html', {'form': form})
 

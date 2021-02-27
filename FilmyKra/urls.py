@@ -35,6 +35,8 @@ urlpatterns = [
     path('studios/', views.StudioListView.as_view(), name='studio_list'),
     path('studio/<int:id>/', views.StudioDetailView.as_view(), name='studio_detail'),
     path('list_users/', views.ListUserView.as_view(), name='list_user'),
-    path('login/', views.LoginView.as_view(), name='login')
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogOutView.as_view(), name='logout'),
+    path('register/', views.RegisterView.as_view(), name='register')
 ]
 
