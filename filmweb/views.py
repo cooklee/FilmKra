@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 # Create your views here.
@@ -7,7 +7,7 @@ from django.views import View
 from django.contrib.auth.models import User
 from django.views.generic import ListView
 from django.contrib.auth import authenticate, login, logout
-from filmweb.forms import LoginForm, RegisterForm
+from filmweb.forms import LoginForm, RegisterForm, UserEditForm
 from filmweb.models import Person, Movie, Country, Studio
 
 
@@ -174,8 +174,25 @@ class StudioDetailView(View):
 
 class ListUserView(ListView):
     model = User
-    template_name = 'show_objects.html'
+    template_name = 'show_user.html'
 
+
+class UserDetailView(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, request, id):
+        user = User.objects.get(pk = id)
+        form = UserEditForm(instance=user)
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request, id):
+        user = User.objects.get(pk=id)
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+        return render(request, 'form.html', {'form': form})
 
 class LoginView(View):
 
