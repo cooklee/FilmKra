@@ -19,6 +19,7 @@ def analyze_pesel(pesel):
         validate = 0
     gender = "male" if int(pesel[-2]) % 2==1 else "female"
     month = int(pesel[2:4])
+
     if month > 80:
         year_beginig = "18"
         month_minus = 80
@@ -31,6 +32,10 @@ def analyze_pesel(pesel):
     elif month > 20:
         year_beginig = "20"
         month_minus = 20
+    else:
+        month_minus = 0
+        year_beginig = '19'
+
     month = int(month) - month_minus
     year = int(year_beginig + pesel[0: 2])
     birth_date = datetime(year, month,int(pesel[4 :6]))

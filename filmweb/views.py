@@ -31,7 +31,7 @@ class PersonListView(View):
 
 def movie_view(request):
     objects = Movie.objects.all()
-    return render(request, 'show_objects.html', {'object_list':objects})
+    return render(request, 'show_objects.html', {'object_list':None})
 
 
 def detail_person_view(request, id):
