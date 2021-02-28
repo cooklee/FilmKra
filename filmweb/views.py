@@ -107,8 +107,7 @@ def add_cookie(request):
 
 
 
-class AddCountryView(PermissionRequiredMixin, View):
-    permission_required = ('filmweb.add_country',)
+class AddCountryView( View):
 
     def get(self, request):
         return render(request,  'add_country.html')
