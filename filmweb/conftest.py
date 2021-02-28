@@ -2,7 +2,7 @@ import pytest
 from django.test import Client
 from django.contrib.auth.models import User
 
-from filmweb.models import Person, Country, Studio
+from filmweb.models import Person, Country, Studio, Movie
 
 
 @pytest.fixture
@@ -47,4 +47,14 @@ def studio(country):
         count += 1
         studios.append(s)
     return studios
+
+
+@pytest.fixture
+def movies(studio, persons):
+    movies = []
+    for x in range(10):
+        m = Movie.objects.create(title=str(x),year=x, directed_by=persons[x], studio=studio[x])
+        m.actors.add(persons[x])
+        movies.append(m)
+    return movies
 

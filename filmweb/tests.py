@@ -39,9 +39,11 @@ def test_studio_list_user_not_login(client):
 
 
 
-
-
 @pytest.mark.django_db
-def test_movie_list(client):
+def test_movie_list(client, movies):
     response = client.get(reverse('movie_list'))
     assert response.status_code == 200
+    movie_from_view = response.context['object_list']
+    assert movie_from_view.count() == len(movies)
+    for item in movie_from_view:
+        assert item in movies
