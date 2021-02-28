@@ -3,6 +3,8 @@ import pytest
 # Create your tests here.
 from django.urls import reverse
 
+from filmweb.models import Person
+
 
 def test_check_index(client):
     response = client.get(reverse('index'))
@@ -17,6 +19,17 @@ def test_person_list(client, persons):
     assert persons_from_view.count() == len(persons)
     for x in persons_from_view:
         assert x in persons
+
+@pytest.mark.django_db
+def test_add_person(client):
+    first_name = 'slawek'
+    last_name = 'bo'
+    assert  Person.objects.all().count() == 0
+    client.post(reverse("add_person"), {'first_name':first_name,
+                                        "last_name":last_name})
+    assert Person.objects.all().count() == 1
+    Person.objects.get(first_name=first_name, last_name=last_name)
+
 
 @pytest.mark.django_db
 def test_studio_list_user_login(client, studio, users):
