@@ -1,6 +1,6 @@
 import pytest
 from django.test import Client
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 
 from filmweb.models import Person, Country, Studio, Movie
 
@@ -19,6 +19,14 @@ def users():
         users.append(u)
     return users
 
+@pytest.fixture
+def user_with_permissions():
+    u = User.objects.create(username='aabb')
+    permissions = Permission.objects.filter(content_type_id__gte=3)
+    #Permission.objects.get(codename='add_studio')
+    for p in permissions:
+        u.user_permissions.add(p)
+    return u
 
 @pytest.fixture
 def persons():

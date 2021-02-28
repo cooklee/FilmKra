@@ -130,7 +130,8 @@ class StudioMovieView(View):
         return render(request, 'show_objects.html', {'object_list':movies})
 
 
-class AddStudioView(View):
+class AddStudioView(PermissionRequiredMixin, View):
+    permission_required = ('filmweb.add_studio',)
 
     def get(self, request):
         countries = Country.objects.all()

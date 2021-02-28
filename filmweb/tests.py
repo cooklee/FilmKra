@@ -64,12 +64,14 @@ def test_movie_list(client, movies):
 
 
 @pytest.mark.django_db
-def test_add_studio(client, country):
+def test_add_studio(client, country, user_with_permissions):
+    client.force_login(user_with_permissions)
     nazwa = 'std1'
     country_id = country[0].id
     response = client.post(reverse('add_studio'), {'nazwa': nazwa,
                                                    "country": country_id})
 
     assert response.status_code == 302
-    Studio.objects.get(name=nazwa, country=country[0])
     assert response.url == reverse('studio_list')
+    Studio.objects.get(name=nazwa, country=country[0])
+
